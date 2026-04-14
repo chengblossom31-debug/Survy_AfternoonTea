@@ -609,22 +609,25 @@ function updateBudgetBar() {
   const pct = Math.min((total/BUDGET)*100, 100);
   const fill = document.getElementById('budgetFill');
   const amt = document.getElementById('budgetAmt');
+  const overMsg = document.getElementById('overMsg');
+  const btn = document.getElementById('cartBtn');
+  const cartTotalEl = document.getElementById('cartTotal');
+  const cartCountEl = document.getElementById('cartCount');
+  if (!fill || !amt || !btn) return;
   const over = total > BUDGET;
   fill.style.width = pct+'%';
   fill.classList.toggle('over', over);
-  amt.textContent = `$${total} / $${BUDGET}`;
+  amt.textContent = '$' + total + ' / $' + BUDGET;
   amt.classList.toggle('over', over);
-  document.getElementById('overMsg').style.display = over ? 'block' : 'none';
-
-  const btn = document.getElementById('cartBtn');
+  if (overMsg) overMsg.style.display = over ? 'block' : 'none';
   btn.disabled = cart.length === 0;
   btn.classList.toggle('over', over);
   btn.onclick = function() { over ? goToConfirmForEdit() : goToConfirm(); };
   btn.querySelector('span:first-child').innerHTML = over
-    ? `⚠️ 超出預算，點此修改 <span class="cart-count">${cart.length}</span>`
-    : `查看訂單 <span class="cart-count">${cart.length}</span>`;
-  document.getElementById('cartTotal').textContent = `$${total}`;
-  document.getElementById('cartCount').textContent = cart.length;
+    ? '⚠️ 超出預算，點此修改 <span class="cart-count">' + cart.length + '</span>'
+    : '查看訂單 <span class="cart-count">' + cart.length + '</span>';
+  if (cartTotalEl) cartTotalEl.textContent = '$' + total;
+  if (cartCountEl) cartCountEl.textContent = cart.length;
 }
 
 // ===== MODAL =====
@@ -638,8 +641,8 @@ function openModal(item) {
     qty: 1,
   };
 
-  renderModal();
   document.getElementById('modalOverlay').classList.add('open');
+  renderModal();
 }
 
 function closeModal(e) {
@@ -727,11 +730,14 @@ function renderModal() {
     + '<button class="qty-btn" data-action="qty" data-val="1">+</button>'
     + '</div></div>';
 
-  document.getElementById('modalContent').innerHTML = html;
-  document.getElementById('modalAddBtn').disabled = false;
+  const modalContent = document.getElementById('modalContent');
+  const modalAddBtn = document.getElementById('modalAddBtn');
+  if (!modalContent) return;
+  modalContent.innerHTML = html;
+  if (modalAddBtn) modalAddBtn.disabled = false;
 
   // Event delegation for ALL modal interactions
-  document.getElementById('modalContent').onclick = function(e) {
+  modalContent.onclick = function(e) {
     // Topping check
     const topEl = e.target.closest('.topping-check');
     if (topEl) {
