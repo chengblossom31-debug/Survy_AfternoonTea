@@ -586,6 +586,13 @@ function goToConfirm() {
   showPage(3);
 }
 
+function goToConfirmForEdit() {
+  // Allow entering confirm page even when over budget, so user can remove items
+  if (cart.length === 0) return;
+  renderConfirm();
+  showPage(3);
+}
+
 function goBack(page) { showPage(page); }
 
 function isOverBudget() {
@@ -612,8 +619,9 @@ function updateBudgetBar() {
   const btn = document.getElementById('cartBtn');
   btn.disabled = cart.length === 0;
   btn.classList.toggle('over', over);
+  btn.onclick = function() { over ? goToConfirmForEdit() : goToConfirm(); };
   btn.querySelector('span:first-child').innerHTML = over
-    ? `超過預算！ <span class="cart-count">${cart.length}</span>`
+    ? `⚠️ 超出預算，點此修改 <span class="cart-count">${cart.length}</span>`
     : `查看訂單 <span class="cart-count">${cart.length}</span>`;
   document.getElementById('cartTotal').textContent = `$${total}`;
   document.getElementById('cartCount').textContent = cart.length;
@@ -648,44 +656,42 @@ function computeItemTotal() {
 function renderModal() {
   const item = currentItem;
   const isSingle = item.single;
-  const overBudget = cartTotal() + computeItemTotal() > BUDGET;
 
   let html = '';
-  if (item.note) html += `<div class="modal-note">⚠️ ${item.note}</div>`;
-  html += `<div class="modal-title">${item.name}</div>`;
-  html += `<div class="modal-price" id="mPrice">$${computeItemTotal()}</div>`;
+  if (item.note) html += '<div class="modal-note">⚠️ ' + item.note + '</div>';
+  html += '<div class="modal-title">' + item.name + '</div>';
+  html += '<div class="modal-price" id="mPrice">$' + computeItemTotal() + '</div>';
 
   // Size
   if (!isSingle) {
-    html += `<div class="modal-section"><div class="modal-section-label">杯型</div><div class="option-grid">`;
-    const sizes = Object.entries(item.prices);
-    sizes.forEach(([s,p])=>{
-      html += `<button class="option-btn ${currentSelection.size===s?'selected':''}" onclick="selectSize('${s}')">${s === 'M' ? 'M 中杯' : 'L 大杯'} +$${p}</button>`;
+    html += '<div class="modal-section"><div class="modal-section-label">杯型</div><div class="option-grid">';
+    Object.entries(item.prices).forEach(function([s,p]) {
+      html += '<button class="option-btn' + (currentSelection.size===s?' selected':'') + '" data-action="size" data-val="' + s + '">' + (s==='M'?'M 中杯':'L 大杯') + ' +$' + p + '</button>';
     });
-    html += `</div></div>`;
+    html += '</div></div>';
   }
 
   // Sweetness
   if (!item.fixedSweet) {
     const sweets = item.sweetMin ? SWEETNESS.slice(1) : SWEETNESS;
-    html += `<div class="modal-section"><div class="modal-section-label">甜度</div><div class="option-grid option-${sweets.length > 2 ? '4' : '3'}">`;
-    sweets.forEach(s=>{
-      html += `<button class="option-btn ${currentSelection.sweet===s?'selected':''}" onclick="selectSweet('${s}')">${s}</button>`;
+    html += '<div class="modal-section"><div class="modal-section-label">甜度</div><div class="option-grid option-' + (sweets.length > 2 ? '4' : '3') + '">';
+    sweets.forEach(function(s) {
+      html += '<button class="option-btn' + (currentSelection.sweet===s?' selected':'') + '" data-action="sweet" data-val="' + s + '">' + s + '</button>';
     });
-    html += `</div></div>`;
+    html += '</div></div>';
   }
 
   // Ice
   if (!item.fixedIce) {
     const ices = item.limitedIce || ICE;
-    html += `<div class="modal-section"><div class="modal-section-label">冰量</div><div class="option-grid option-${ices.length > 2 ? '4' : '3'}">`;
-    ices.forEach(i=>{
-      html += `<button class="option-btn ${currentSelection.ice===i?'selected':''}" onclick="selectIce('${i}')">${i}</button>`;
+    html += '<div class="modal-section"><div class="modal-section-label">冰量</div><div class="option-grid option-' + (ices.length > 2 ? '4' : '3') + '">';
+    ices.forEach(function(i) {
+      html += '<button class="option-btn' + (currentSelection.ice===i?' selected':'') + '" data-action="ice" data-val="' + i + '">' + i + '</button>';
     });
     if (!item.limitedIce) {
-      html += `<button class="option-btn ${currentSelection.ice==='溫熱飲'?'selected':''}" onclick="selectIce('溫熱飲')">溫熱飲</button>`;
+      html += '<button class="option-btn' + (currentSelection.ice==='溫熱飲'?' selected':'') + '" data-action="ice" data-val="溫熱飲">溫熱飲</button>';
     }
-    html += `</div></div>`;
+    html += '</div></div>';
   }
 
   // Toppings
@@ -699,12 +705,14 @@ function renderModal() {
       const checkClass = 'topping-check' + (checked && !disabled ? ' checked' : '');
       const checkStyle = disabled ? 'opacity:0.3;cursor:not-allowed' : 'cursor:pointer';
       const checkContent = (checked && !disabled) ? '&#10003;' : '';
-      const onclickAttr = disabled ? '' : 'selectTopping(' + JSON.stringify(t.name) + ',' + t.price + ')';
       html += '<div class="topping-item">'
         + '<span class="topping-name">' + t.name + '</span>'
         + '<div style="display:flex;align-items:center;gap:12px">'
         + '<span class="topping-price">+$' + t.price + '</span>'
-        + '<div class="' + checkClass + '" onclick="' + onclickAttr + '" style="' + checkStyle + '">'
+        + '<div class="' + checkClass + '"'
+        + ' data-name="' + t.name + '" data-price="' + t.price + '"'
+        + ' data-disabled="' + (disabled ? '1' : '0') + '"'
+        + ' style="' + checkStyle + '">'
         + checkContent
         + '</div></div></div>';
     });
@@ -712,16 +720,35 @@ function renderModal() {
   }
 
   // Qty
-  html += `<div class="modal-section"><div class="modal-section-label">數量</div>
-    <div class="qty-control">
-      <button class="qty-btn" onclick="changeQty(-1)">−</button>
-      <span class="qty-val" id="qtyVal">${currentSelection.qty}</span>
-      <button class="qty-btn" onclick="changeQty(1)">+</button>
-    </div>
-  </div>`;
+  html += '<div class="modal-section"><div class="modal-section-label">數量</div>'
+    + '<div class="qty-control">'
+    + '<button class="qty-btn" data-action="qty" data-val="-1">−</button>'
+    + '<span class="qty-val" id="qtyVal">' + currentSelection.qty + '</span>'
+    + '<button class="qty-btn" data-action="qty" data-val="1">+</button>'
+    + '</div></div>';
 
   document.getElementById('modalContent').innerHTML = html;
   document.getElementById('modalAddBtn').disabled = false;
+
+  // Event delegation for ALL modal interactions
+  document.getElementById('modalContent').onclick = function(e) {
+    // Topping check
+    const topEl = e.target.closest('.topping-check');
+    if (topEl) {
+      if (topEl.dataset.disabled === '1') return;
+      selectTopping(topEl.dataset.name, Number(topEl.dataset.price));
+      return;
+    }
+    // Option buttons (size / sweet / ice / qty)
+    const btn = e.target.closest('[data-action]');
+    if (!btn) return;
+    const action = btn.dataset.action;
+    const val = btn.dataset.val;
+    if (action === 'size') selectSize(val);
+    else if (action === 'sweet') selectSweet(val);
+    else if (action === 'ice') selectIce(val);
+    else if (action === 'qty') changeQty(Number(val));
+  };
 }
 
 function selectSize(s) { currentSelection.size = s; renderModal(); }
@@ -763,33 +790,63 @@ function addToCart() {
 
 // ===== CONFIRM PAGE =====
 function renderConfirm() {
-  document.getElementById('confirmName').textContent = userName;
+  const nameEl = document.getElementById('confirmName');
   const list = document.getElementById('confirmList');
+  const totalEl = document.getElementById('confirmTotal');
+  const warnEl = document.getElementById('confirmOverWarn');
+  const submitEl = document.getElementById('submitBtn');
+  if (!nameEl || !list || !totalEl) return;
+
+  nameEl.textContent = userName;
   list.innerHTML = '';
-  cart.forEach((item, i) => {
+
+  cart.forEach(function(item, i) {
     const div = document.createElement('div');
     div.className = 'confirm-item';
-    div.innerHTML = `
-      <div class="confirm-item-top">
-        <span class="confirm-item-name">${item.qty > 1 ? item.qty+'x ' : ''}${item.name}</span>
-        <span class="confirm-item-price">$${item.total}</span>
-      </div>
-      ${item.detail ? `<div class="confirm-item-detail">${item.detail}</div>` : ''}
-      <button class="confirm-item-remove" onclick="removeItem(${i})">✕ 移除</button>
-    `;
+
+    const top = document.createElement('div');
+    top.className = 'confirm-item-top';
+    const nameSpan = document.createElement('span');
+    nameSpan.className = 'confirm-item-name';
+    nameSpan.textContent = (item.qty > 1 ? item.qty + 'x ' : '') + item.name;
+    const priceSpan = document.createElement('span');
+    priceSpan.className = 'confirm-item-price';
+    priceSpan.textContent = '$' + item.total;
+    top.appendChild(nameSpan);
+    top.appendChild(priceSpan);
+    div.appendChild(top);
+
+    if (item.detail) {
+      const detail = document.createElement('div');
+      detail.className = 'confirm-item-detail';
+      detail.textContent = item.detail;
+      div.appendChild(detail);
+    }
+
+    const btn = document.createElement('button');
+    btn.className = 'confirm-item-remove';
+    btn.textContent = '✕ 移除';
+    btn.dataset.index = i;
+    div.appendChild(btn);
+
     list.appendChild(div);
   });
-  const total = cartTotal();
-  document.getElementById('confirmTotal').textContent = `$${total}`;
-  const over = total > BUDGET;
-  document.getElementById('confirmOverWarn').style.display = over ? 'block' : 'none';
-  document.getElementById('submitBtn').disabled = over;
-}
 
-function removeItem(i) {
-  cart.splice(i, 1);
-  updateBudgetBar();
-  renderConfirm();
+  // Single event listener on the list (event delegation, avoids closure issues)
+  list.onclick = function(e) {
+    const btn = e.target.closest('.confirm-item-remove');
+    if (!btn) return;
+    const idx = Number(btn.dataset.index);
+    cart.splice(idx, 1);
+    updateBudgetBar();
+    renderConfirm();
+  };
+
+  const total = cartTotal();
+  totalEl.textContent = '$' + total;
+  const over = total > BUDGET;
+  if (warnEl) warnEl.style.display = over ? 'block' : 'none';
+  if (submitEl) submitEl.disabled = over;
 }
 
 // ===== SUBMIT =====
