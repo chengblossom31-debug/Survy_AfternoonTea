@@ -498,8 +498,17 @@ let currentItem = null;
 let currentSelection = {};
 
 // ===== INIT =====
-document.getElementById('nameInput').addEventListener('input', function() {
-  document.getElementById('nameBtn').disabled = this.value.trim() === '';
+document.addEventListener('DOMContentLoaded', function() {
+  const nameInput = document.getElementById('nameInput');
+  const nameBtn = document.getElementById('nameBtn');
+
+  nameInput.addEventListener('input', function() {
+    nameBtn.disabled = this.value.trim() === '';
+  });
+
+  nameInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && this.value.trim() !== '') goToMenu();
+  });
 });
 
 function buildMenu() {
