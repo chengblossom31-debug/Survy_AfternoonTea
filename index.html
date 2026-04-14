@@ -497,19 +497,18 @@ let cart = [];
 let currentItem = null;
 let currentSelection = {};
 
-// ===== INIT =====
-document.addEventListener('DOMContentLoaded', function() {
+// ===== INIT (runs after body is parsed) =====
+function initNameInput() {
   const nameInput = document.getElementById('nameInput');
   const nameBtn = document.getElementById('nameBtn');
-
+  if (!nameInput) return;
   nameInput.addEventListener('input', function() {
     nameBtn.disabled = this.value.trim() === '';
   });
-
   nameInput.addEventListener('keydown', function(e) {
     if (e.key === 'Enter' && this.value.trim() !== '') goToMenu();
   });
-});
+}
 
 function buildMenu() {
   const tabs = document.getElementById('catTabs');
@@ -692,26 +691,22 @@ function renderModal() {
   // Toppings
   if (!item.noTopping && !isSingle) {
     html += `<div class="modal-section"><div class="modal-section-label">加料 (可複選)</div>`;
-    TOPPINGS.forEach(t=>{
-      const checked = currentSelection.toppings.some(x=>x.name===t.name);
-      // Restriction: no 奶蓋 on sparkling/certain items
+    TOPPINGS.forEach(function(t) {
+      const checked = currentSelection.toppings.some(function(x){ return x.name===t.name; });
       const noNaiGai = (item.fixedSweet || item.id==='b07') && t.name==='經典奶蓋';
-      // No 蜜檸凍/桂花凍 on hot drinks
       const noJelly = currentSelection.ice === '溫熱飲' && (t.name==='蜜檸凍' || t.name==='桂花凍');
       const disabled = noNaiGai || noJelly;
-      html += `
-        <div class="topping-item">
-          <span class="topping-name">${t.name}</span>
-          <div style="display:flex;align-items:center;gap:12px">
-            <span class="topping-price">+$${t.price}</span>
-            <div class="topping-check ${checked&&!disabled?'checked':''} ${disabled?'':''}"
-              onclick="${disabled?'':''(selectTopping(\''+t.name+'\','+t.price+'))'}"
-              style="${disabled?'opacity:0.3;cursor:not-allowed':'cursor:pointer'}"
-              id="top_${t.name.replace(/[^a-zA-Z0-9]/g,'_')}">
-              ${checked&&!disabled?'✓':''}
-            </div>
-          </div>
-        </div>`;
+      const checkClass = 'topping-check' + (checked && !disabled ? ' checked' : '');
+      const checkStyle = disabled ? 'opacity:0.3;cursor:not-allowed' : 'cursor:pointer';
+      const checkContent = (checked && !disabled) ? '&#10003;' : '';
+      const onclickAttr = disabled ? '' : 'selectTopping(' + JSON.stringify(t.name) + ',' + t.price + ')';
+      html += '<div class="topping-item">'
+        + '<span class="topping-name">' + t.name + '</span>'
+        + '<div style="display:flex;align-items:center;gap:12px">'
+        + '<span class="topping-price">+$' + t.price + '</span>'
+        + '<div class="' + checkClass + '" onclick="' + onclickAttr + '" style="' + checkStyle + '">'
+        + checkContent
+        + '</div></div></div>';
     });
     html += `</div>`;
   }
@@ -839,6 +834,8 @@ function showSuccessPage(data) {
     data.items.map(i=>`<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);font-size:13px"><span>${i.qty>1?i.qty+'x ':''} ${i.name}</span><span>$${i.total}</span></div>`).join('') +
     `<div style="display:flex;justify-content:space-between;padding:10px 0;font-weight:700"><span>合計</span><span>$${data.totalAmount}</span></div>`;
 }
+
+initNameInput();
 </script>
 </body>
 </html>
