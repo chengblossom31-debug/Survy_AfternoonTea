@@ -7,7 +7,6 @@
 <title>不要對我尖叫 — 團購點餐</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 <style>
-  /* ── 全域變數 ── */
   :root {
     --brand: #E8571A;
     --brand-light: #FDF0EA;
@@ -29,8 +28,6 @@
     min-height: 100vh;
     padding-bottom: 120px;
   }
-
-  /* ── 頂部導覽列 ── */
   .top-bar {
     background: var(--text); color: white;
     padding: 12px 20px;
@@ -39,12 +36,8 @@
   }
   .top-bar .brand { font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 700; letter-spacing: 0.02em; }
   .top-bar .step-indicator { font-size: 13px; color: rgba(255,255,255,0.6); }
-
-  /* ── 頁面切換（5個步驟頁面） ── */
   .page { display: none; max-width: 480px; margin: 0 auto; padding: 24px 16px; }
   .page.active { display: block; }
-
-  /* ── 步驟1：輸入姓名 ── */
   .hero-area { text-align: center; padding: 40px 0 32px; }
   .hero-icon {
     width: 80px; height: 80px; background: var(--brand);
@@ -77,8 +70,6 @@
   .btn-primary:hover { background: var(--brand-dark); }
   .btn-primary:active { transform: scale(0.98); }
   .btn-primary:disabled { background: #ccc; cursor: not-allowed; }
-
-  /* ── 步驟2：預算進度條（sticky，會固定在頂部）── */
   .budget-bar-wrap {
     background: white; border: 1px solid var(--border);
     border-radius: 16px; padding: 16px; margin-bottom: 16px;
@@ -92,8 +83,6 @@
   .budget-fill { height: 100%; border-radius: 100px; transition: width 0.3s, background 0.3s; background: var(--brand); }
   .budget-fill.over { background: var(--danger); }
   .over-msg { color: var(--danger); font-size: 12px; margin-top: 6px; font-weight: 500; }
-
-  /* ── 步驟2：分類 Tab（多行顯示，確保所有分類可見）── */
   .cat-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
   .cat-tab {
     flex: 0 0 auto; padding: 7px 14px;
@@ -104,8 +93,6 @@
     -webkit-tap-highlight-color: transparent;
   }
   .cat-tab.active { background: var(--text); color: white; border-color: var(--text); }
-
-  /* ── 步驟2：菜單品項卡片 ── */
   .menu-section { margin-bottom: 24px; }
   .menu-section-title {
     font-size: 13px; font-weight: 700; text-transform: uppercase;
@@ -126,8 +113,6 @@
   .tag { font-size: 11px; padding: 2px 8px; border-radius: 100px; background: #f3f3f3; color: var(--text-muted); }
   .tag.fixed { background: #FEF3C7; color: #92400E; }
   .tag.limited { background: #DCFCE7; color: #166534; }
-
-  /* ── 步驟2：品項選擇 Modal（從底部滑出）── */
   .modal-overlay {
     position: fixed; inset: 0; background: rgba(0,0,0,0.5);
     z-index: 200; display: none; align-items: flex-end; justify-content: center;
@@ -167,7 +152,6 @@
     flex-shrink: 0; transition: all 0.15s;
   }
   .topping-check.checked { background: var(--brand); border-color: var(--brand); color: white; }
-  /* 加入購物車按鈕（固定在 modal 底部）*/
   .modal-add-btn {
     position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
     width: 100%; max-width: 480px; padding: 16px 20px 32px;
@@ -179,8 +163,6 @@
   }
   .modal-add-btn button:disabled { background: #ccc; cursor: not-allowed; }
   .modal-note { font-size: 12px; color: #D97706; background: #FEF3C7; border-radius: 8px; padding: 8px 12px; margin-bottom: 12px; line-height: 1.5; }
-
-  /* ── 步驟2：底部購物車按鈕（固定在畫面底部）── */
   .cart-bar {
     position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
     width: 100%; max-width: 480px; padding: 12px 16px 28px; z-index: 90;
@@ -193,8 +175,6 @@
   .cart-btn.over { background: var(--danger); }
   .cart-btn:disabled { background: #ccc; cursor: not-allowed; }
   .cart-count { background: var(--brand); border-radius: 100px; padding: 3px 10px; font-size: 12px; }
-
-  /* ── 步驟3：確認訂單 ── */
   .confirm-item { background: white; border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px; margin-bottom: 10px; }
   .confirm-item-top { display: flex; justify-content: space-between; margin-bottom: 4px; }
   .confirm-item-name { font-size: 15px; font-weight: 500; }
@@ -215,8 +195,6 @@
     background: var(--danger-light); color: var(--danger);
     border-radius: 10px; padding: 12px; margin-bottom: 12px; font-size: 13px; font-weight: 500;
   }
-
-  /* ── 步驟5：送出成功 ── */
   .success-wrap { text-align: center; padding: 60px 0; }
   .success-icon {
     width: 90px; height: 90px; background: #DCFCE7; border-radius: 50%;
@@ -229,8 +207,6 @@
     border-radius: 16px; padding: 16px; text-align: left; margin-top: 24px;
   }
   .order-summary-card h3 { font-size: 14px; font-weight: 700; margin-bottom: 12px; color: var(--text-muted); }
-
-  /* ── 共用元件 ── */
   .btn-secondary {
     width: 100%; padding: 14px; background: white; color: var(--text);
     border: 1.5px solid var(--border); border-radius: 12px;
@@ -245,8 +221,6 @@
   }
   .qty-btn:hover { border-color: var(--brand); color: var(--brand); }
   .qty-val { font-size: 16px; font-weight: 700; min-width: 20px; text-align: center; }
-
-  /* ── 浮動按鈕：分類/回頂部（在點餐頁往下滑後出現）── */
   .float-nav {
     position: fixed; bottom: 90px; right: 16px;
     display: none; flex-direction: column; gap: 8px; z-index: 80;
@@ -260,8 +234,6 @@
     -webkit-tap-highlight-color: transparent; transition: background 0.15s, transform 0.1s;
   }
   .float-btn:active { transform: scale(0.92); }
-
-  /* ── 分類抽屜（點 ☰ 後從底部滑出）── */
   .cat-drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 150; display: none; }
   .cat-drawer-overlay.open { display: block; }
   .cat-drawer {
@@ -284,15 +256,11 @@
 </head>
 <body>
 
-<!-- ── 頂部標題列 ── -->
 <div class="top-bar">
   <span class="brand">🧋 不要對我尖叫</span>
   <span class="step-indicator" id="stepLabel">步驟 1/5</span>
 </div>
 
-<!-- ══════════════════════════════════════
-     步驟1：輸入姓名
-     ══════════════════════════════════════ -->
 <div class="page active" id="page1">
   <div class="hero-area">
     <div class="hero-icon">🧋</div>
@@ -307,11 +275,7 @@
   </div>
 </div>
 
-<!-- ══════════════════════════════════════
-     步驟2：菜單點餐
-     ══════════════════════════════════════ -->
 <div class="page" id="page2">
-  <!-- 預算進度條（sticky 置頂）-->
   <div class="budget-bar-wrap">
     <div class="budget-bar-header">
       <span class="budget-bar-label" id="budgetName">你的預算</span>
@@ -322,13 +286,8 @@
     </div>
     <div class="over-msg" id="overMsg" style="display:none">⚠️ 已超過 $80 預算，請移除部分餐點</div>
   </div>
-
-  <!-- 分類 Tab -->
   <div class="cat-tabs" id="catTabs"></div>
-  <!-- 菜單內容（由 JS buildMenu() 動態產生）-->
   <div id="menuContainer"></div>
-
-  <!-- 底部購物車按鈕 -->
   <div class="cart-bar">
     <button class="cart-btn" id="cartBtn" onclick="goToConfirm()" disabled>
       <span>查看訂單 <span class="cart-count" id="cartCount">0</span></span>
@@ -337,9 +296,6 @@
   </div>
 </div>
 
-<!-- ══════════════════════════════════════
-     步驟3：確認訂單
-     ══════════════════════════════════════ -->
 <div class="page" id="page3">
   <h2 style="font-size:20px;font-weight:700;margin-bottom:4px">確認訂單</h2>
   <p style="font-size:13px;color:var(--text-muted);margin-bottom:20px">訂購人：<strong id="confirmName"></strong></p>
@@ -353,9 +309,6 @@
   <button class="btn-secondary" onclick="goBack(2)">← 返回修改</button>
 </div>
 
-<!-- ══════════════════════════════════════
-     步驟4：送出中
-     ══════════════════════════════════════ -->
 <div class="page" id="page4">
   <div class="success-wrap">
     <div class="success-icon">⏳</div>
@@ -364,9 +317,6 @@
   </div>
 </div>
 
-<!-- ══════════════════════════════════════
-     步驟5：送出成功
-     ══════════════════════════════════════ -->
 <div class="page" id="page5">
   <div class="success-wrap">
     <div class="success-icon">✅</div>
@@ -376,13 +326,11 @@
   </div>
 </div>
 
-<!-- ── 浮動按鈕（點餐頁滑下後出現）── -->
 <div class="float-nav" id="floatNav">
   <button class="float-btn" title="選擇分類" onclick="openCatDrawer()">☰</button>
   <button class="float-btn" title="回到頂部" onclick="scrollToTop()">↑</button>
 </div>
 
-<!-- ── 分類抽屜（點 ☰ 後出現）── -->
 <div class="cat-drawer-overlay" id="catDrawerOverlay" onclick="closeCatDrawer(event)">
   <div class="cat-drawer">
     <div class="cat-drawer-handle"></div>
@@ -391,7 +339,6 @@
   </div>
 </div>
 
-<!-- ── 品項選擇 Modal（點品項後從底部滑出）── -->
 <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
   <div class="modal">
     <div class="modal-handle"></div>
@@ -404,28 +351,16 @@
 
 <script>
 // ══════════════════════════════════════════════════════════════
-// 【設定區】修改這裡的值即可調整系統行為
+// 【設定區】
 // ══════════════════════════════════════════════════════════════
-
-// ⚠️ 將 GAS 部署 URL 貼在這裡（不要有多餘空格）
-// 取得方式：GAS 編輯器 → 部署 → 管理部署 → 複製網頁應用程式 URL
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbznNwiiZI5wqAhnLwTt7Z1HVBNWyIzyARSXu1yOzVpeqsOk61HaSsTSdtU31c2Gm3bX/exec';
-
-// 每人預算上限（新台幣元）
 const BUDGET = 80;
 
 // ══════════════════════════════════════════════════════════════
 // 【菜單資料】
 // ══════════════════════════════════════════════════════════════
-
-// 甜度選項（按鈕順序）
 const SWEETNESS = ['無糖', '微糖(10%)', '半糖(30%)', '正常甜'];
-
-// 冰量選項（按鈕順序）
-// 注意：「溫熱飲」是在程式碼裡另外加上去的，不在這個陣列內
 const ICE = ['完全去冰', '去冰', '微冰(10%)', '少冰(30%)'];
-
-// 加料選項與價格
 const TOPPINGS = [
   { name: '黑糖珍珠', price: 10 },
   { name: '白玉珍珠', price: 10 },
@@ -435,8 +370,6 @@ const TOPPINGS = [
   { name: '經典奶蓋', price: 20 },
 ];
 
-// 菜單結構
-// 欄位說明請見 HTML 頂部的 <!-- 修改菜單 --> 區塊
 const MENU = [
   {
     cat: '特選莊園茶',
@@ -505,7 +438,6 @@ const MENU = [
   },
   {
     cat: 'Money Cake 車輪餅',
-    // single:true = 無甜度/冰量/加料選項
     items: [
       { id:'k01', name:'相思紅豆車輪餅',   sub:'Red bean',      prices:{U:30}, single:true },
       { id:'k02', name:'濃郁牛奶車輪餅',   sub:'Custard',       prices:{U:30}, single:true },
@@ -529,23 +461,21 @@ const MENU = [
 // ══════════════════════════════════════════════════════════════
 // 【全域狀態】
 // ══════════════════════════════════════════════════════════════
-let userName = '';      // 目前使用者姓名
-let cart = [];          // 購物車內容 [{id, name, detail, qty, unitPrice, total}]
-let currentItem = null; // 目前打開 modal 的品項
-let currentSelection = {}; // 目前 modal 內的選擇狀態
+let userName = '';
+let cart = [];
+let currentItem = null;
+let currentSelection = {};
 
 // ══════════════════════════════════════════════════════════════
-// 【初始化】頁面載入後綁定事件
+// 【初始化】
 // ══════════════════════════════════════════════════════════════
 function initNameInput() {
   const nameInput = document.getElementById('nameInput');
   const nameBtn   = document.getElementById('nameBtn');
   if (!nameInput) return;
-  // 輸入文字時即時啟用/停用按鈕
   nameInput.addEventListener('input', function() {
     nameBtn.disabled = this.value.trim() === '';
   });
-  // 按 Enter 直接跳到下一步
   nameInput.addEventListener('keydown', function(e) {
     if (e.key === 'Enter' && this.value.trim() !== '') goToMenu();
   });
@@ -576,7 +506,6 @@ function goToConfirm() {
   showPage(3);
 }
 
-// 超過預算時仍可進入確認頁刪除品項（送出按鈕會被鎖住）
 function goToConfirmForEdit() {
   if (cart.length === 0) return;
   renderConfirm();
@@ -584,7 +513,6 @@ function goToConfirmForEdit() {
 }
 
 function goBack(page) { showPage(page); }
-
 function isOverBudget() { return cartTotal() > BUDGET; }
 
 // ══════════════════════════════════════════════════════════════
@@ -597,7 +525,6 @@ function buildMenu() {
   container.innerHTML = '';
 
   MENU.forEach(function(cat, ci) {
-    // 建立分類 Tab
     const tab = document.createElement('button');
     tab.className = 'cat-tab' + (ci === 0 ? ' active' : '');
     tab.textContent = cat.cat;
@@ -608,7 +535,6 @@ function buildMenu() {
     };
     tabs.appendChild(tab);
 
-    // 建立分類區段
     const sec = document.createElement('div');
     sec.className = 'menu-section';
     sec.id = 'sec-' + ci;
@@ -668,7 +594,6 @@ function updateBudgetBar() {
 
   btn.disabled = cart.length === 0;
   btn.classList.toggle('over', over);
-  // 超過預算：按鈕改為紅色並導到確認頁（可刪除品項）
   btn.onclick = function() { over ? goToConfirmForEdit() : goToConfirm(); };
   btn.querySelector('span:first-child').innerHTML = over
     ? '⚠️ 超出預算，點此修改 <span class="cart-count">' + cart.length + '</span>'
@@ -689,7 +614,6 @@ function openModal(item) {
     toppings: [],
     qty:      1,
   };
-  // 先顯示 modal，再 render（確保 DOM 元素已存在）
   document.getElementById('modalOverlay').classList.add('open');
   renderModal();
 }
@@ -710,12 +634,10 @@ function renderModal() {
   const isSingle = item.single;
   let html = '';
 
-  // 注意事項（黃色警告框）
   if (item.note) html += '<div class="modal-note">⚠️ ' + item.note + '</div>';
   html += '<div class="modal-title">' + item.name + '</div>';
   html += '<div class="modal-price" id="mPrice">$' + computeItemTotal() + '</div>';
 
-  // 杯型（飲料才有）
   if (!isSingle) {
     html += '<div class="modal-section"><div class="modal-section-label">杯型</div><div class="option-grid">';
     Object.entries(item.prices).forEach(function(entry) {
@@ -726,7 +648,6 @@ function renderModal() {
     html += '</div></div>';
   }
 
-  // 甜度（飲料且非固定）
   if (!isSingle && !item.fixedSweet) {
     const sweets = item.sweetMin ? SWEETNESS.slice(1) : SWEETNESS;
     html += '<div class="modal-section"><div class="modal-section-label">甜度</div><div class="option-grid option-' + (sweets.length > 2 ? '4' : '3') + '">';
@@ -736,7 +657,6 @@ function renderModal() {
     html += '</div></div>';
   }
 
-  // 冰量（飲料且非固定）
   if (!isSingle && !item.fixedIce) {
     const ices = item.limitedIce || ICE;
     html += '<div class="modal-section"><div class="modal-section-label">冰量</div><div class="option-grid option-' + (ices.length > 2 ? '4' : '3') + '">';
@@ -749,16 +669,11 @@ function renderModal() {
     html += '</div></div>';
   }
 
-  // 加料（飲料且非固定配料）
-  // ⚠️ 注意：加料使用 data-name/data-price 屬性 + 事件委派
-  //    不使用 onclick 字串，避免中文名稱在 HTML 屬性裡造成語法錯誤
   if (!item.noTopping && !isSingle) {
     html += '<div class="modal-section"><div class="modal-section-label">加料 (可複選)</div>';
     TOPPINGS.forEach(function(t) {
       const checked     = currentSelection.toppings.some(function(x) { return x.name === t.name; });
-      // 不適合加奶蓋：氣泡飲、洛神蜂蜜菊花
       const noNaiGai    = (item.fixedSweet || item.id === 'b07') && t.name === '經典奶蓋';
-      // 溫熱飲不能加果凍類
       const noJelly     = currentSelection.ice === '溫熱飲' && (t.name === '蜜檸凍' || t.name === '桂花凍');
       const disabled    = noNaiGai || noJelly;
       const checkClass  = 'topping-check' + (checked && !disabled ? ' checked' : '');
@@ -778,7 +693,6 @@ function renderModal() {
     html += '</div>';
   }
 
-  // 數量
   html += '<div class="modal-section"><div class="modal-section-label">數量</div>'
     + '<div class="qty-control">'
     + '<button class="qty-btn" data-action="qty" data-val="-1">−</button>'
@@ -792,8 +706,6 @@ function renderModal() {
   modalContent.innerHTML = html;
   if (modalAddBtn) modalAddBtn.disabled = false;
 
-  // 統一事件委派：所有 modal 內的互動都在這裡處理
-  // 使用委派而非 inline onclick，避免 CSP 安全政策阻擋
   modalContent.onclick = function(e) {
     const topEl = e.target.closest('.topping-check');
     if (topEl) {
@@ -889,13 +801,12 @@ function renderConfirm() {
     const btn = document.createElement('button');
     btn.className = 'confirm-item-remove';
     btn.textContent = '✕ 移除';
-    btn.dataset.index = i; // 用 data-index 避免 closure 問題
+    btn.dataset.index = i;
     div.appendChild(btn);
 
     list.appendChild(div);
   });
 
-  // 移除按鈕：事件委派在 list 上，避免 forEach closure 的 index 錯位問題
   list.onclick = function(e) {
     const btn = e.target.closest('.confirm-item-remove');
     if (!btn) return;
@@ -912,7 +823,7 @@ function renderConfirm() {
 }
 
 // ══════════════════════════════════════════════════════════════
-// 【送出訂單】
+// 【送出訂單】← 這裡是修正的地方
 // ══════════════════════════════════════════════════════════════
 async function submitOrder() {
   showPage(4);
@@ -926,19 +837,14 @@ async function submitOrder() {
   };
 
   try {
-    if (GAS_URL === 'https://script.google.com/macros/s/AKfycbznNwiiZI5wqAhnLwTt7Z1HVBNWyIzyARSXu1yOzVpeqsOk61HaSsTSdtU31c2Gm3bX/exec') {
-      // Demo 模式：GAS_URL 未設定時，模擬等待 1.2 秒
-      await new Promise(function(r) { setTimeout(r, 1200); });
-    } else {
-      // 使用 no-cors 模式送出（跨來源限制，無法取得回應內容）
-      // ⚠️ 即使 GAS 內部發生錯誤，前端也會顯示成功，請事後確認 Sheets
-      await fetch(GAS_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(orderData),
-      });
-    }
+    // ✅ 直接送出，移除了永遠為 true 的 Demo 模式判斷
+    // ✅ Content-Type 改為 text/plain（GAS 處理 no-cors 請求的正確格式）
+    await fetch(GAS_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify(orderData),
+    });
     showSuccessPage(orderData);
   } catch (err) {
     showSuccessPage(orderData);
@@ -959,7 +865,7 @@ function showSuccessPage(data) {
 }
 
 // ══════════════════════════════════════════════════════════════
-// 【浮動按鈕】回頂部 + 分類抽屜
+// 【浮動按鈕】
 // ══════════════════════════════════════════════════════════════
 function scrollToTop() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -990,7 +896,6 @@ function closeCatDrawer(e) {
   document.getElementById('catDrawerOverlay').classList.remove('open');
 }
 
-// 往下滑超過 100px 且在點餐頁時，顯示浮動按鈕
 window.addEventListener('scroll', function() {
   const floatNav = document.getElementById('floatNav');
   if (!floatNav) return;
@@ -1002,7 +907,6 @@ window.addEventListener('scroll', function() {
   }
 });
 
-// ── 啟動 ──
 initNameInput();
 </script>
 </body>
