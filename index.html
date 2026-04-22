@@ -409,8 +409,7 @@
 
 // ⚠️ 將 GAS 部署 URL 貼在這裡（不要有多餘空格）
 // 取得方式：GAS 編輯器 → 部署 → 管理部署 → 複製網頁應用程式 URL
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbznNwiiZI5wqAhnLwTt7Z1HVBNWyIzyARSXu1yOzVpeqsOk61HaSsTSdtU31c2Gm3bX/exec
-';
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbznNwiiZI5wqAhnLwTt7Z1HVBNWyIzyARSXu1yOzVpeqsOk61HaSsTSdtU31c2Gm3bX/exec';
 
 // 每人預算上限（新台幣元）
 const BUDGET = 80;
@@ -927,8 +926,7 @@ async function submitOrder() {
   };
 
   try {
-    if (GAS_URL === 'https://script.google.com/macros/s/AKfycbznNwiiZI5wqAhnLwTt7Z1HVBNWyIzyARSXu1yOzVpeqsOk61HaSsTSdtU31c2Gm3bX/exec
-') {
+    if (GAS_URL === 'https://script.google.com/macros/s/AKfycbznNwiiZI5wqAhnLwTt7Z1HVBNWyIzyARSXu1yOzVpeqsOk61HaSsTSdtU31c2Gm3bX/exec') {
       // Demo 模式：GAS_URL 未設定時，模擬等待 1.2 秒
       await new Promise(function(r) { setTimeout(r, 1200); });
     } else {
