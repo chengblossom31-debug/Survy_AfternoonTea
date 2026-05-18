@@ -359,8 +359,8 @@ const BUDGET = 80;
 // ══════════════════════════════════════════════════════════════
 // 【菜單資料】
 // ══════════════════════════════════════════════════════════════
-const SWEETNESS = ['無糖', '微糖(10%)', '半糖(30%)', '正常甜'];
-const ICE = ['完全去冰', '去冰', '微冰(10%)', '少冰(30%)'];
+const SWEETNESS = ['無糖', '淺糖(10%)', '微糖(30%)', '半糖(50%)'];
+const ICE = ['完全去冰', '去冰(10%)', '微冰(30%)', '少冰(50%)'];
 const TOPPINGS = [
   { name: '黑糖珍珠', price: 10 },
   { name: '白玉珍珠', price: 10 },
@@ -388,24 +388,24 @@ const MENU = [
     cat: '濃郁蕎麥茶',
     items: [
       { id:'b01', name:'濃郁蕎麥茶', sub:'Buckwheat Tea',             prices:{M:40,L:50}, sweetOk:true, iceOk:true },
-      { id:'b02', name:'蜂蜜烏龍茶', sub:'Honey Oolong Tea（最少淺糖）', prices:{M:40,L:50}, sweetMin:'微糖(10%)', iceOk:true, note:'使用蜂蜜調甜，最少淺糖' },
-      { id:'b03', name:'蜂蜜普洱',   sub:'Honey Puer Tea（最少淺糖）',   prices:{M:45,L:55}, sweetMin:'微糖(10%)', iceOk:true, note:'使用蜂蜜調甜，最少淺糖' },
-      { id:'b04', name:'桂花烏龍茶', sub:'Osmanthus Oolong Tea（最少淺糖）', prices:{M:45,L:55}, sweetMin:'微糖(10%)', iceOk:true, note:'使用桂花釀調甜，最少淺糖' },
-      { id:'b05', name:'冬瓜蕎麥茶', sub:'Winter Melon Buckwheat Tea（最少淺糖）', prices:{M:45,L:55}, sweetMin:'微糖(10%)', iceOk:true, note:'使用冬瓜露調甜，最少淺糖' },
-      { id:'b06', name:'冬瓜菊花茶', sub:'Winter Melon Honey Chrysanthemum Tea（最少淺糖）', prices:{M:45,L:55}, sweetMin:'微糖(10%)', iceOk:true, note:'使用冬瓜露調甜，最少淺糖' },
-      { id:'b07', name:'洛神蜂蜜菊花', sub:'Roselle Honey Chrysanthemum Tea', prices:{M:45,L:55}, sweetMin:'微糖(10%)', iceOk:true, note:'使用蜂蜜調甜，最少淺糖；不適合加奶蓋' },
+      { id:'b02', name:'蜂蜜烏龍茶', sub:'Honey Oolong Tea（最少淺糖）', prices:{M:40,L:50}, sweetMin:'微糖(30%)', iceOk:true, note:'使用蜂蜜調甜，最少淺糖' },
+      { id:'b03', name:'蜂蜜普洱',   sub:'Honey Puer Tea（最少淺糖）',   prices:{M:45,L:55}, sweetMin:'微糖(30%)', iceOk:true, note:'使用蜂蜜調甜，最少淺糖' },
+      { id:'b04', name:'桂花烏龍茶', sub:'Osmanthus Oolong Tea（最少淺糖）', prices:{M:45,L:55}, sweetMin:'微糖(30%)', iceOk:true, note:'使用桂花釀調甜，最少淺糖' },
+      { id:'b05', name:'冬瓜蕎麥茶', sub:'Winter Melon Buckwheat Tea（最少淺糖）', prices:{M:45,L:55}, sweetMin:'微糖(30%)', iceOk:true, note:'使用冬瓜露調甜，最少淺糖' },
+      { id:'b06', name:'冬瓜菊花茶', sub:'Winter Melon Honey Chrysanthemum Tea（最少淺糖）', prices:{M:45,L:55}, sweetMin:'微糖(30%)', iceOk:true, note:'使用冬瓜露調甜，最少淺糖' },
+      { id:'b07', name:'洛神蜂蜜菊花', sub:'Roselle Honey Chrysanthemum Tea', prices:{M:45,L:55}, sweetMin:'微糖(30%)', iceOk:true, note:'使用蜂蜜調甜，最少淺糖；不適合加奶蓋' },
     ]
   },
   {
     cat: '農纖果茶',
     items: [
       { id:'f01', name:'香檸冬瓜',     sub:'Sugarcane Lemon（甜度冰量固定）',                    prices:{M:55,L:65}, fixedSweet:true, fixedIce:true, note:'甜度冰量固定，無法調整' },
-      { id:'f02', name:'甘蔗青茶',     sub:'Sugarcane Four Season Green Tea（最少淺糖）',       prices:{M:55,L:65}, sweetMin:'微糖(10%)', iceOk:true },
+      { id:'f02', name:'甘蔗青茶',     sub:'Sugarcane Four Season Green Tea（最少淺糖）',       prices:{M:55,L:65}, sweetMin:'微糖(30%)', iceOk:true },
       { id:'f03', name:'荔枝冰茶',     sub:'Lychee Iced Tea（含椰果，甜度冰量固定）',             prices:{M:55,L:65}, fixedSweet:true, fixedIce:true, noTopping:true, note:'含椰果，配料與甜度冰量固定' },
-      { id:'f04', name:'葡柚荔枝果茶', sub:'Grapefruit and Lychee Flavored Fruit Tea（最少淺糖）', prices:{M:55,L:65}, sweetMin:'微糖(10%)', iceOk:true },
-      { id:'f05', name:'鮮蘋蜜蕾茶',  sub:'Fresh Apple Jasmine Tea（門市限定，最少淺糖）',       prices:{M:60,L:70}, sweetMin:'微糖(10%)', iceOk:true, note:'門市限定，使用蜂蜜調甜，最少淺糖' },
+      { id:'f04', name:'葡柚荔枝果茶', sub:'Grapefruit and Lychee Flavored Fruit Tea（最少淺糖）', prices:{M:55,L:65}, sweetMin:'微糖(30%)', iceOk:true },
+      { id:'f05', name:'鮮蘋蜜蕾茶',  sub:'Fresh Apple Jasmine Tea（門市限定，最少淺糖）',       prices:{M:60,L:70}, sweetMin:'微糖(30%)', iceOk:true, note:'門市限定，使用蜂蜜調甜，最少淺糖' },
       { id:'f06', name:'蜜檸翡翠凍飲', sub:'Honey Lemon Green Tea with Honey Lemon Jelly',   prices:{M:55,L:65}, sweetOk:true, iceOk:true },
-      { id:'f07', name:'桂花四季凍飲', sub:'Osmanthus Four Season Green Tea with Osmanthus Jelly', prices:{M:50,L:60}, sweetMin:'微糖(10%)', iceOk:true, note:'使用桂花釀調甜，最少淺糖' },
+      { id:'f07', name:'桂花四季凍飲', sub:'Osmanthus Four Season Green Tea with Osmanthus Jelly', prices:{M:50,L:60}, sweetMin:'微糖(30%)', iceOk:true, note:'使用桂花釀調甜，最少淺糖' },
     ]
   },
   {
@@ -415,9 +415,9 @@ const MENU = [
       { id:'m02', name:'伯爵紅茶歐蕾', sub:'Earl Grey Milk Tea',       prices:{M:55,L:65}, sweetOk:true, iceOk:true },
       { id:'m03', name:'梔花四季歐蕾', sub:'Gardenia Four Season Milk Tea', prices:{M:55,L:65}, sweetOk:true, iceOk:true },
       { id:'m04', name:'蕎麥茶歐蕾',   sub:'Buckwheat Milk Tea',       prices:{M:55,L:65}, sweetOk:true, iceOk:true },
-      { id:'m05', name:'桂花紅茶歐蕾', sub:'Osmanthus Milk Tea（最少淺糖）', prices:{M:60,L:70}, sweetMin:'微糖(10%)', iceOk:true, note:'使用桂花釀調甜，最少淺糖' },
-      { id:'m06', name:'蜂蜜普洱歐蕾', sub:'Honey Puer Milk Tea（最少淺糖）', prices:{M:60,L:70}, sweetMin:'微糖(10%)', iceOk:true, note:'使用蜂蜜調甜，最少淺糖' },
-      { id:'m07', name:'黑糖珍珠歐蕾', sub:'Milk with Brown Sugar Tapioca（含珍珠，冰量限定）', prices:{M:60,L:70}, sweetOk:true, limitedIce:['微冰(10%)','少冰(30%)','溫熱飲'], noTopping:true, note:'含珍珠，配料固定無法額外加料；冰量只有微冰/少冰/溫熱飲' },
+      { id:'m05', name:'桂花紅茶歐蕾', sub:'Osmanthus Milk Tea（最少淺糖）', prices:{M:60,L:70}, sweetMin:'微糖(30%)', iceOk:true, note:'使用桂花釀調甜，最少淺糖' },
+      { id:'m06', name:'蜂蜜普洱歐蕾', sub:'Honey Puer Milk Tea（最少淺糖）', prices:{M:60,L:70}, sweetMin:'微糖(30%)', iceOk:true, note:'使用蜂蜜調甜，最少淺糖' },
+      { id:'m07', name:'黑糖珍珠歐蕾', sub:'Milk with Brown Sugar Tapioca（含珍珠，冰量限定）', prices:{M:60,L:70}, sweetOk:true, limitedIce:['微冰(30%)','少冰(50%)','溫熱飲'], noTopping:true, note:'含珍珠，配料固定無法額外加料；冰量只有微冰/少冰/溫熱飲' },
     ]
   },
   {
@@ -610,7 +610,7 @@ function openModal(item) {
   currentSelection = {
     size:     item.single ? 'U' : 'M',
     sweet:    item.fixedSweet ? '固定' : (item.sweetMin || '正常甜'),
-    ice:      item.fixedIce ? '固定' : '少冰(30%)',
+    ice:      item.fixedIce ? '固定' : '少冰(50%)',
     toppings: [],
     qty:      1,
   };
